@@ -25,6 +25,16 @@ namespace SiriLavMad
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    options.AddPolicy("AllowAnyOrigin",
+                        builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +46,9 @@ namespace SiriLavMad
             }
 
             app.UseRouting();
+
+            app.UseCors("AllowAnyOrigin");
+
 
             app.UseAuthorization();
 
