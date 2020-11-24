@@ -45,7 +45,7 @@ namespace SiriLavMad.Controllers
 
                     r.Add(insRecipe);
                 }
-
+                r.Add(new Recipe(200,"Test",DateTime.Now));
                 command.Connection.Close();
             }
 
