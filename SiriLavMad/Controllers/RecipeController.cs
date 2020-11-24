@@ -17,8 +17,11 @@ namespace SiriLavMad.Controllers
     {
 
 
-        public static string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SiriDB; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private static readonly string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SiriDB; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
+        private static readonly string baseUrl = "https://api.spoonacular.com/";
+
+        private static readonly string authKey = "dd889d3d0f6b432398898660844abbb1";
 
         // GET: api/<RecipeController>
         [HttpGet]
@@ -29,7 +32,7 @@ namespace SiriLavMad.Controllers
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                string queryString = $@"SELECT * FROM Recipes ORDER BY Last_Made DESC";
+                string queryString = $@"SELECT TOP 5 Id, Title FROM Recipes ORDER BY Last_Made DESC";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Connection.Open();
 
@@ -45,29 +48,25 @@ namespace SiriLavMad.Controllers
 
                     r.Add(insRecipe);
                 }
-                r.Add(new Recipe(200,"Test",DateTime.Now));
                 command.Connection.Close();
             }
+
+            r.Add(new Recipe() { LastMade = DateTime.Now, RecipeTitle = "Hej Stefan", RecipeId = 2054 });
+
 
             return r;
         }
 
-        // POST api/<RecipeController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet]
+        [Route("getspecific/{id}")]
+        public Recipe GetSingleRecipe(string id)
         {
+            Recipe r = new Recipe();
+
+
+            return r;
         }
 
-        // PUT api/<RecipeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<RecipeController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
