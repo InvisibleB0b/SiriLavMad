@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SiriLavMad.Models;
@@ -41,7 +43,6 @@ namespace SiriLavMad.Controllers
                 {
                     Recipe insRecipe = new Recipe()
                     {
-                        LastMade = (DateTime)reader["Last_Made"],
                         RecipeId = (int)reader["Id"],
                         RecipeTitle = (string)reader["Title"]
                     };
@@ -50,8 +51,6 @@ namespace SiriLavMad.Controllers
                 }
                 command.Connection.Close();
             }
-
-            r.Add(new Recipe() { LastMade = DateTime.Now, RecipeTitle = "Hej Stefan", RecipeId = 2054 });
 
 
             return r;
@@ -62,6 +61,43 @@ namespace SiriLavMad.Controllers
         public Recipe GetSingleRecipe(string id)
         {
             Recipe r = new Recipe();
+
+            HttpClientHandler handler = new HttpClientHandler();
+
+            handler.UseDefaultCredentials = true;
+
+            using (var client = new HttpClient(handler))
+            {
+
+                client.BaseAddress = new Uri(baseUrl);
+
+                client.DefaultRequestHeaders.Clear();
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+
+                client.DefaultRequestHeaders.Connection.Add("keep-alive");
+
+
+                try
+                {
+                    var response = client.GetAsync($"recipes/1161745/information?apiKey={authKey}&includeNutrition=false").Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        r = response.Content.ReadAsAsync<Recipe>().Result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+            }
 
 
             return r;
