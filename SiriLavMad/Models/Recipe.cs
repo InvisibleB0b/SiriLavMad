@@ -7,25 +7,15 @@ namespace SiriLavMad.Models
 {
     public class Recipe
     {
-        public int RecipeId { get; set; }
-        public string RecipeTitle { get; set; }
-        public DateTime LastMade { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
+        public List<ingredientsModel> extendedIngredients { get; set; }
 
         public Recipe()
         {
 
         }
 
-        public Recipe(int recipeId, string recipeTitle, DateTime lastMade)
-        {
-            RecipeId = recipeId;
-            RecipeTitle = recipeTitle;
-            LastMade = lastMade;
-        }
 
-        public override string ToString()
-        {
-            return $"{nameof(RecipeId)}: {RecipeId}, {nameof(RecipeTitle)}: {RecipeTitle}, {nameof(LastMade)}: {LastMade}";
-        }
     }
 }

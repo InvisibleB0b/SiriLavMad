@@ -9,28 +9,20 @@ namespace SiriLavMad.Models
     public class ingredientsModel
     {
         [Key]
-        public int Id { get; set; }
+        public int? id { get; set; }
 
-        public string Name { get; set; }
-       
-        public string Amount { get; set; }
+        public string name { get; set; }
+
+        public Mesurement measures { get; set; }
 
 
-        public ingredientsModel(int id, string name, string amount)
-        {
-            Id = id;
-            Name = name;
-            Amount = amount;
-        }
+
 
         public ingredientsModel()
         {
-            
+
         }
 
-        public override string ToString()
-        {
-            return $"Id: {Id}, Name: {Name}, Amount: {Amount}";
-        }
+
     }
 }

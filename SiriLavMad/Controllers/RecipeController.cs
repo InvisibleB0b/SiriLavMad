@@ -43,8 +43,8 @@ namespace SiriLavMad.Controllers
                 {
                     Recipe insRecipe = new Recipe()
                     {
-                        RecipeId = (int)reader["Id"],
-                        RecipeTitle = (string)reader["Title"]
+                        id = (int)reader["Id"],
+                        title = (string)reader["Title"]
                     };
 
                     r.Add(insRecipe);
@@ -80,7 +80,7 @@ namespace SiriLavMad.Controllers
 
                 try
                 {
-                    var response = client.GetAsync($"recipes/1161745/information?apiKey={authKey}&includeNutrition=false").Result;
+                    var response = client.GetAsync($"recipes/{id}/information?apiKey={authKey}&includeNutrition=false").Result;
                     if (response.IsSuccessStatusCode)
                     {
                         r = response.Content.ReadAsAsync<Recipe>().Result;
