@@ -103,6 +103,52 @@ namespace SiriLavMad.Controllers
             return r;
         }
 
+        [HttpGet]
+        [Route("search/{title}")]
+        public List<Recipe> GetSearchRecipe(string title)
+        {
+            SearchRecipe r = new SearchRecipe();
+
+            HttpClientHandler handler = new HttpClientHandler();
+
+            handler.UseDefaultCredentials = true;
+
+            using (var client = new HttpClient(handler))
+            {
+
+                client.BaseAddress = new Uri(baseUrl);
+
+                client.DefaultRequestHeaders.Clear();
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                
+                client.DefaultRequestHeaders.Connection.Add("keep-alive");
+
+
+                try
+                {
+                    var response = client.GetAsync($"recipes/complexSearch?query={title}&number=5&apiKey={authKey}").Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        r = response.Content.ReadAsAsync<SearchRecipe>().Result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+            }
+
+
+            return r.results;
+        }
 
     }
 }
