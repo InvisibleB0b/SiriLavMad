@@ -7,8 +7,8 @@ namespace SiriLavMad.Models
 {
     public class Recipe
     {
-        public int id { get; set; }
-        public string title { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
         public List<ingredientsModel> extendedIngredients { get; set; }
         public string summary { get; set; }
         public string instructions { get; set; }

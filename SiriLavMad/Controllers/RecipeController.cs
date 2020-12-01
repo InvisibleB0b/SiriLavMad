@@ -43,8 +43,8 @@ namespace SiriLavMad.Controllers
                 {
                     Recipe insRecipe = new Recipe()
                     {
-                        id = (int)reader["Id"],
-                        title = (string)reader["Title"]
+                        Id = (int)reader["Id"],
+                        Title = (string)reader["Title"]
                     };
 
                     r.Add(insRecipe);
@@ -149,6 +149,15 @@ namespace SiriLavMad.Controllers
 
             return r.results;
         }
+        
+        //POST: /recipe/
+        public void Post([FromBody] Recipe value)
+        {
+            new ManageRecipes().Create(value);
+        }
+
+
+
 
     }
 }
