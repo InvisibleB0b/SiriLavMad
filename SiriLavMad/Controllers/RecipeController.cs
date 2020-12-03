@@ -41,8 +41,8 @@ namespace SiriLavMad.Controllers
                 {
                     Recipe insRecipe = new Recipe()
                     {
-                        Id = (int)reader["Id"],
-                        Title = (string)reader["Title"]
+                        id = (int)reader["Id"],
+                        title = (string)reader["Title"]
                     };
 
                     r.Add(insRecipe);
@@ -151,7 +151,7 @@ namespace SiriLavMad.Controllers
         //POST: /recipe/
         public void PostRecipe([FromBody] Recipe obj)
         {
-            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.Id},'{obj.Title}','{DateTime.Now}')";
+            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{DateTime.Now}')";
             
             string connectionString =
                 "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SiriDB; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
