@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using SiriLavMad.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using SiriLavMad.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -149,6 +147,26 @@ namespace SiriLavMad.Controllers
 
             return r.results;
         }
+        
+        //POST: /recipe/
+        public void PostRecipe([FromBody] Recipe obj)
+        {
+            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{DateTime.Now}')";
+            
+            string connectionString =
+                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SiriDB; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Connection.Open();
+                command.ExecuteNonQuery();
+                command.Connection.Close();
+            }
+
+        }
+
+
+
 
     }
 }
