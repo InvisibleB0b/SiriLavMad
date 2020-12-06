@@ -25,12 +25,15 @@ namespace UDP_Receiver_Broadcast
 
         public static async void PostAsync(MSG value)
         {
-            using (HttpClient client = new HttpClient())
+                
             {
-                string postBody = JsonConvert.SerializeObject(value);
-                StringContent stringContent = new StringContent(postBody, Encoding.UTF8, "application/json");
-                await client.PostAsync("http://localhost:55980/IOT/Post", stringContent);
-                Console.WriteLine("Posting Object to Api");
+                using (HttpClient client = new HttpClient())
+                {
+                    string postBody = JsonConvert.SerializeObject(value);
+                    StringContent stringContent = new StringContent(postBody, Encoding.UTF8, "application/json");
+                    await client.PostAsync("http://localhost:55980/IOT/Post", stringContent);
+                    Console.WriteLine("Posting Object to Api");
+                }
             }
         }
 

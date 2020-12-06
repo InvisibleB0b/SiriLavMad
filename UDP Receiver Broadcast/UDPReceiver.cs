@@ -17,7 +17,7 @@ namespace UDP_Receiver_Broadcast
         public async System.Threading.Tasks.Task StartAsync()
         {
             UdpClient UdpReceiver = new UdpClient(7000);
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Broadcast, 7000);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
             Console.WriteLine("Receiver is blocked");
 
             
@@ -27,8 +27,7 @@ namespace UDP_Receiver_Broadcast
                
                 while (true)
                 {
-                    using (HttpClient client = new HttpClient())
-                    {
+                    
                         Byte[] bytesreceived = UdpReceiver.Receive(ref endPoint);
                         string receivedData = Encoding.ASCII.GetString(bytesreceived);
 
@@ -36,11 +35,8 @@ namespace UDP_Receiver_Broadcast
                         Console.WriteLine("This Message was sent from" + " " + endPoint.Address.ToString());
                         Console.WriteLine("On Port" + " " + endPoint.Port.ToString());
 
-                        MSG.PostAsync(new MSG(receivedData));
+                        MSG.PostAsync(new MSG(receivedData));   
 
-                       
-                        
-                    }
                     Thread.Sleep(200);
                 }
             }
