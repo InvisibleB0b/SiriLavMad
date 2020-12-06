@@ -10,10 +10,8 @@ namespace UDP_Receiver_Broadcast
         static void Main(string[] args)
         {
 
+            Console.WriteLine("Press key to start server");
             Console.ReadKey();
-           
-
-
             UDPReceiver udpReceiver = new UDPReceiver();
             udpReceiver.StartAsync();
         }

@@ -2,30 +2,30 @@ import socket
 
 
 
-while True:
 
-		print("Insert Search word")
 
-		msgFromClient       = input()
+print("Insert Search word")
 
-		bytesToSend         = str.encode(msgFromClient)
+msgFromClient       = input()
 
-		serverAddressPort   = ("127.0.0.1", 7000)
+bytesToSend         = str.encode(msgFromClient)
 
-		bufferSize          = 1024
+serverAddressPort   = ("127.0.0.1", 7000)
+
+bufferSize          = 1024
 
 # Create a UDP socket at client side
-
-		UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
 # Send to server using created UDP socket
-		if msgFromClient != "Exit":
-			UDPClientSocket.sendto(bytesToSend, serverAddressPort);
-			msgFromServer = UDPClientSocket.recvfrom(bufferSize);
-			msg = msgFromClient.format(msgFromServer[0])
-			print(msg)
-		else:
-			sys.exit("Script stopped by user")
+while True:
+	if msgFromClient != "Exit":
+		UDPClientSocket.sendto(bytesToSend, serverAddressPort);
+		msgFromServer = UDPClientSocket.recvfrom(bufferSize);
+		msg = msgFromClient.format(msgFromServer[0])
+		print(msg)
+	else:
+		sys.exit("Script stopped by user")
 
 		
 		

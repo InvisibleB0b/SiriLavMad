@@ -14,7 +14,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\UDP Fan Broadcaster\UDP Receiver Broadcast\UDP Receiver Broadcast.csproj" />
     <ProjectReference Include="..\UDP Receiver Broadcast\UDP Receiver Broadcast.csproj" />
   </ItemGroup>
 
