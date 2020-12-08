@@ -151,11 +151,10 @@ namespace SiriLavMad.Controllers
         //POST: /recipe/
         public void PostRecipe([FromBody] Recipe obj)
         {
-            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{DateTime.Now}')";
+            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{String.Format("{0:yyyy-MM-dd HH:mm:ss.ff}",DateTime.Now)}')";
             
-            string connectionString =
-                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SiriDB; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Connection.Open();
