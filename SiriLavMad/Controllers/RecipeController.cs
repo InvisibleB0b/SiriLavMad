@@ -17,7 +17,7 @@ namespace SiriLavMad.Controllers
     {
 
 
-        private static readonly string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SiriDB; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private static readonly string ConnectionString = "Server=tcp:recipeexam.database.windows.net,1433;Initial Catalog=recipeexamDB;Persist Security Info=False;User ID=adminuser;Password=Password1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         private static readonly string baseUrl = "https://api.spoonacular.com/";
 
@@ -66,7 +66,7 @@ namespace SiriLavMad.Controllers
 
             using (var client = new HttpClient(handler))
             {
-
+                
                 client.BaseAddress = new Uri(baseUrl);
 
                 client.DefaultRequestHeaders.Clear();
@@ -149,6 +149,7 @@ namespace SiriLavMad.Controllers
         }
         
         //POST: /recipe/
+        [HttpPost]
         public void PostRecipe([FromBody] Recipe obj)
         {
             string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{String.Format("{0:yyyy-MM-dd HH:mm:ss.ff}",DateTime.Now)}')";
