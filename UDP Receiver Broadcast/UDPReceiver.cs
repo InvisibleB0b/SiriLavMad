@@ -14,7 +14,7 @@ namespace UDP_Receiver_Broadcast
 {
     public class UDPReceiver
     {
-        private static readonly string baseUrl = "https://websiterecipeexam.azurewebsites.net/";
+        private static readonly string baseUrl = "https://3recipeexam.azurewebsites.net/";
         public async System.Threading.Tasks.Task StartAsync()
         {
             UdpClient UdpReceiver = new UdpClient(9999);
