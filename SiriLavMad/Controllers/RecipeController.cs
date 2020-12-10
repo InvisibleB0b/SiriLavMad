@@ -23,6 +23,8 @@ namespace SiriLavMad.Controllers
 
         private static readonly string authKey = "dd889d3d0f6b432398898660844abbb1";
 
+        private static bool Vegan = false;
+
         // GET: api/<RecipeController>
         [HttpGet]
         [Route("History")]
@@ -66,7 +68,7 @@ namespace SiriLavMad.Controllers
 
             using (var client = new HttpClient(handler))
             {
-                
+
                 client.BaseAddress = new Uri(baseUrl);
 
                 client.DefaultRequestHeaders.Clear();
@@ -119,13 +121,22 @@ namespace SiriLavMad.Controllers
                 client.DefaultRequestHeaders.Clear();
 
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-                
-                client.DefaultRequestHeaders.Connection.Add("keep-alive");
 
+                client.DefaultRequestHeaders.Connection.Add("keep-alive");
+                string vegan;
+
+                if (Vegan)
+                {
+                    vegan = "vegan";
+                }
+                else
+                {
+                    vegan = "";
+                }
 
                 try
                 {
-                    var response = client.GetAsync($"recipes/complexSearch?query={title}&number=5&apiKey={authKey}").Result;
+                    var response = client.GetAsync($"recipes/complexSearch?diet={vegan}&query={title}&number=5&apiKey={authKey}").Result;
                     if (response.IsSuccessStatusCode)
                     {
                         r = response.Content.ReadAsAsync<SearchRecipe>().Result;
@@ -147,14 +158,14 @@ namespace SiriLavMad.Controllers
 
             return r.results;
         }
-        
+
         //POST: /recipe/
         [HttpPost]
         public void PostRecipe([FromBody] Recipe obj)
         {
-            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{String.Format("{0:yyyy-MM-dd HH:mm:ss.ff}",DateTime.Now)}')";
-            
-            
+            string queryString = $"INSERT INTO Recipes (Id,Title,Last_made) VALUES ({obj.id},'{obj.title}','{String.Format("{0:yyyy-MM-dd HH:mm:ss.ff}", DateTime.Now)}')";
+
+
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -165,6 +176,21 @@ namespace SiriLavMad.Controllers
 
         }
 
+        //POST: /recipe/
+        [HttpPost]
+        [Route("vegan/{obj}")]
+        public void ChangeVegan(string obj)
+        {
+            if (obj == "Steak")
+            {
+                Vegan = false;
+            }
+            else if (obj == "Vegetable")
+            {
+                Vegan = true;
+            }
+
+        }
 
 
 
